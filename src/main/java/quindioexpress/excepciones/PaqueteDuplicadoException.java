@@ -1,3 +1,12 @@
+
 package quindioexpress.excepciones;
-/** Código de paquete ya registrado. */
-public class PaqueteDuplicadoException extends RuntimeException { public PaqueteDuplicadoException(String mensaje){super(mensaje);} }
+
+/**
+ * indica que el codigo de un paquete ya se encuentra registrado.
+ */
+public class PaqueteDuplicadoException extends RuntimeException {
+
+    public PaqueteDuplicadoException(String mensaje) {
+        super(mensaje);
+    }
+}
