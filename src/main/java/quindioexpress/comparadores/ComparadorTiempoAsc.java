@@ -1,4 +1,19 @@
 package quindioexpress.comparadores;
-import java.util.Comparator; import quindioexpress.modelo.Paquete;
-/** Tiempo estimado ascendente. */
-public class ComparadorTiempoAsc implements Comparator<Paquete> { public int compare(Paquete a,Paquete b){throw new UnsupportedOperationException("Pendiente de implementación");} }
+
+import quindioexpress.modelo.Paquete;
+
+import java.util.Comparator;
+
+/**
+ * alternativo de ordenamiento: tiempo estimado de MENOR a MAYOR
+ */
+public class ComparadorTiempoAsc implements Comparator<Paquete> {
+
+    /**
+     * Compara dos paquetes según su tiempo estimado, de menor a mayor
+     */
+    @Override
+    public int compare(Paquete a, Paquete b) {
+        return Integer.compare(a.getTiempoEstimado(), b.getTiempoEstimado());
+    }
+}
