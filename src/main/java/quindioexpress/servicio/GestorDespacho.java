@@ -9,12 +9,12 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
- * Administra dos modalidades independientes de atencion:
- * FIFO por orden de llegada y despacho por prioridad.
+ * Mantiene dos modalidades alternativas de despacho para comparar resultados:
+ * FIFO por orden de llegada y prioridad, tiempo estimado y codigo.
  *
- * Cada paquete registrado en este gestor se incorpora a ambas estructuras.
- * Las estructuras son vistas independientes para poder comparar las dos
- * modalidades de despacho sobre el mismo conjunto inicial de paquetes.
+ * Cada paquete se incorpora a ambas colas, que son vistas independientes.
+ * En una entrega operativa debe elegirse una sola modalidad y no despachar
+ * el mismo gestor alternando entre ambas.
  */
 public class GestorDespacho {
 
@@ -34,6 +34,14 @@ public class GestorDespacho {
 
         colaFIFO.offer(paquete);
         colaPrioritaria.offer(paquete);
+    }
+
+    /**
+     * Consulta el siguiente paquete FIFO sin retirarlo.
+     * Devuelve null si la cola FIFO esta vacia.
+     */
+    public Paquete verSiguienteFIFO() {
+        return colaFIFO.peek();
     }
 
     /**

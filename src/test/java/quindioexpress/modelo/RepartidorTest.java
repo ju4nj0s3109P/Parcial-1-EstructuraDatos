@@ -21,7 +21,6 @@ class RepartidorTest {
         Repartidor repartidor = new Repartidor("ID-02", "Luis Gomez", "Pereira");
 
         assertTrue(repartidor.isDisponible());
-        assertTrue(repartidor.estaDisponible());
     }
 
     @Test
@@ -70,7 +69,7 @@ class RepartidorTest {
 
         assertEquals("Maria Lopez", repartidor.getNombre());
         assertEquals("Calarca", repartidor.getZona());
-        assertFalse(repartidor.estaDisponible());
+        assertFalse(repartidor.isDisponible());
     }
 
     @Test

@@ -11,16 +11,12 @@ public class Repartidor {
     private String zona;
     private boolean disponible;
 
-    /**
-     * crea un repartidor disponible.
-     */
+    /** crea un repartidor disponible. */
     public Repartidor(String identificacion, String nombre, String zona) {
         this(identificacion, nombre, zona, true);
     }
 
-    /**
-     * crea un repartidor con su estado de disponibilidad.
-     */
+    /** crea un repartidor con su estado de disponibilidad. */
     public Repartidor(String identificacion, String nombre, String zona, boolean disponible) {
         setIdentificacion(identificacion);
         setNombre(nombre);
@@ -61,11 +57,8 @@ public class Repartidor {
         this.zona = zona.trim();
     }
 
+    /** Getter booleano convencional para consultar la disponibilidad. */
     public boolean isDisponible() {
-        return disponible;
-    }
-
-    public boolean estaDisponible() {
         return disponible;
     }
 
