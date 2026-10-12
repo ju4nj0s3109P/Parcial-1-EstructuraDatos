@@ -22,6 +22,7 @@ import quindioexpress.servicio.ResultadoEntrega;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -264,6 +265,8 @@ public final class Main {
         imprimirPaquetes(ordenDespacho);
 
         System.out.println("\nLa cola prioritaria usa ComparadorDespacho, que aplica esos tres criterios.");
+        System.out.println("La modalidad FIFO usa Queue respaldada por ArrayDeque; la prioritaria usa PriorityQueue.");
+        System.out.println("ArrayDeque también implementa Deque, aunque en el despacho se usa como cola FIFO.");
     }
 
     /** Demuestra la lista genérica propia, acceso por índice, eliminación e Iterable. */
@@ -283,6 +286,12 @@ public final class Main {
         System.out.println("\nRecorrido externo mediante for-each (Iterable):");
         for (String municipio : lista) {
             System.out.println("- " + municipio);
+        }
+
+        System.out.println("\nRecorrido explícito mediante Iterator:");
+        Iterator<String> iterador = lista.iterator();
+        while (iterador.hasNext()) {
+            System.out.println("-> " + iterador.next());
         }
 
         System.out.println("\nEliminar Salento: " + lista.eliminar("Salento"));
