@@ -5,6 +5,8 @@ import quindioexpress.modelo.Paquete;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.PriorityQueue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -134,5 +136,66 @@ class ComparadoresTest {
         lista.sort(new ComparadorTiempoAsc());
 
         assertEquals(List.of("PQ002", "PQ003", "PQ001"), codigos(lista));
+    }
+
+        // ----------------------------------------------------------------- despacho
+
+    /** Tabla del enunciado: PQ420 (3,30), PQ731 (5,45), PQ105 (5,25), PQ942 (4,20). */
+    @Test
+    void despachoReproduceElEjemploDelEnunciado() {
+        List<Paquete> lista = new ArrayList<>(List.of(
+                paquete("PQ420", 1.0, 3, 30),
+                paquete("PQ731", 1.0, 5, 45),
+                paquete("PQ105", 1.0, 5, 25),
+                paquete("PQ942", 1.0, 4, 20)));
+
+        lista.sort(new ComparadorDespacho());
+
+        assertEquals(List.of("PQ105", "PQ731", "PQ942", "PQ420"), codigos(lista));
+    }
+
+    /** Misma prioridad y mismo tiempo: decide el código (orden natural). */
+    @Test
+    void despachoUsaElCodigoComoUltimoDesempate() {
+        ComparadorDespacho comparador = new ComparadorDespacho();
+        Paquete a = paquete("PQ105", 1.0, 5, 25);
+        Paquete b = paquete("PQ271", 9.0, 5, 25);
+
+        assertTrue(comparador.compare(a, b) < 0);
+        assertTrue(comparador.compare(b, a) > 0);
+    }
+
+    /** Dentro de una PriorityQueue, poll() devuelve los paquetes en orden de despacho. */
+    @Test
+    void despachoFuncionaDentroDeUnaPriorityQueue() {
+        PriorityQueue<Paquete> cola = new PriorityQueue<>(new ComparadorDespacho());
+        cola.offer(paquete("PQ420", 1.0, 3, 30));
+        cola.offer(paquete("PQ731", 1.0, 5, 45));
+        cola.offer(paquete("PQ105", 1.0, 5, 25));
+        cola.offer(paquete("PQ942", 1.0, 4, 20));
+
+        assertEquals("PQ105", cola.poll().getCodigo());
+        assertEquals("PQ731", cola.poll().getCodigo());
+        assertEquals("PQ942", cola.poll().getCodigo());
+        assertEquals("PQ420", cola.poll().getCodigo());
+        assertNull(cola.poll());
+    }
+
+    /**
+     * Ordenar temporalmente por peso no cambia el orden natural del Paquete,
+     * que sigue siendo por código (requisito explícito del enunciado).
+     */
+    @Test
+    void ordenarConUnComparatorNoCambiaElOrdenNatural() {
+        Paquete liviano = paquete("PQ105", 2.0, 3, 10);
+        Paquete pesado = paquete("PQ942", 20.0, 3, 10);
+        List<Paquete> lista = new ArrayList<>(List.of(liviano, pesado));
+
+        lista.sort(new ComparadorPesoDesc());
+        assertEquals(List.of("PQ942", "PQ105"), codigos(lista));
+
+        assertTrue(liviano.compareTo(pesado) < 0);
+        Collections.sort(lista);
+        assertEquals(List.of("PQ105", "PQ942"), codigos(lista));
     }
 }
